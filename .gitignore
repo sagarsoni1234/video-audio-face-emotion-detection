@@ -1,34 +1,38 @@
-data/
-datasets
-faces
-input_files
-no_tracking
-/other_files/
-.idea
-source/__pycache__
-source/audio_analysis_utils/__pycache__
-output_files
-source/face_emotion_utils/__pycache__/
-VideoBufferFolder
-/backup/
-tuner/
+# Virtual environment (always exclude - users create their own)
+venv/
+.venv/
+env/
+
+# IDE settings
+.idea/
 .vs/
+.vscode/
+
+# Python cache
 __pycache__/
 *.pyc
-bkp/
-/models/face/face_model_early_stop.h5
-/dataset/
-
-
-source/whisper/__pycache__/
 *.py[cod]
 *$py.class
 *.egg-info
-source/whisper/.pytest_cache
-source/whisper/.ipynb_checkpoints
+source/__pycache__/
+source/audio_analysis_utils/__pycache__/
+source/face_emotion_utils/__pycache__/
+source/whisper/__pycache__/
+source/whisper/.pytest_cache/
+source/audio_face_combined/__pycache__/
 
+# OS files
+.DS_Store
+thumbs.db
 source/whisper/thumbs.db
 source/whisper/.DS_Store
-source/whisper/.idea
 
-venv/
+# Jupyter
+.ipynb_checkpoints/
+source/whisper/.ipynb_checkpoints/
+
+# Backup files
+/backup/
+bkp/
+no_tracking/
+/other_files/

@@ -272,6 +272,11 @@ def clone_pytorch_utils():
         str(pytorch_utils_path)
     ], check=False)
     
+    # If clone fails, try without git (pytorch_utils might already be included)
+    if not success and pytorch_utils_path.exists():
+        print_warning("Git clone failed but pytorch_utils folder exists")
+        success = True
+    
     if success:
         os.chdir(pytorch_utils_path)
         run_command(['git', 'checkout', 'v1.0.3'], check=False)

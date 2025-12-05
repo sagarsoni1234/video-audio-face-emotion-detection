@@ -1,28 +1,22 @@
 @echo off
-REM Script to run the Streamlit UI for Emotion Recognition on Windows
+REM ============================================================
+REM Emotion Recognition Web UI - Run Script
+REM ============================================================
 
 echo.
 echo ============================================================
-echo   Emotion Recognition Web UI
+echo          Emotion Recognition Web UI
 echo ============================================================
 echo.
 
 REM Check if virtual environment exists
-if not exist "venv\Scripts\activate.bat" (
+if not exist "venv\Scripts\python.exe" (
     echo [ERROR] Virtual environment not found!
+    echo.
     echo Please run setup.bat first to set up the project.
+    echo.
     pause
     exit /b 1
-)
-
-REM Activate virtual environment
-call venv\Scripts\activate.bat
-
-REM Check if streamlit is installed
-python -c "import streamlit" >nul 2>&1
-if errorlevel 1 (
-    echo [INFO] Streamlit not found, installing...
-    pip install streamlit
 )
 
 REM Check if required folders exist
@@ -36,12 +30,13 @@ if not exist "output_files" (
     mkdir output_files
 )
 
-REM Run the Streamlit app
+REM Run Streamlit using venv's Python directly (avoids PATH issues)
+echo [INFO] Starting web interface...
+echo [INFO] Opening in browser at http://localhost:8501
 echo.
-echo [SUCCESS] Starting web interface...
-echo [INFO] The app will open in your browser at http://localhost:8501
+echo Press Ctrl+C to stop the server.
 echo.
-python -m streamlit run app.py
+
+venv\Scripts\python.exe -m streamlit run app.py
 
 pause
-

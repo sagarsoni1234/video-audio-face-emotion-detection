@@ -1,8 +1,98 @@
-Delete the broken installation:
-    Remove-Item -Recurse -Force C:\ProgramData\chocolatey
+======================================
+FFmpeg Installation Guide
+======================================
 
-Reinstall Chocolatey:
-    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+FFmpeg is REQUIRED for video/audio processing.
 
-Close and reopen PowerShell as Admin, then:
-    choco install ffmpeg
+--------------------------------------
+WINDOWS (Choose one method):
+--------------------------------------
+
+Method 1: Using winget (Recommended - Windows 10/11)
+   Open PowerShell as Administrator and run:
+   
+   winget install FFmpeg.FFmpeg
+   
+   Then restart PowerShell and verify:
+   ffmpeg -version
+
+Method 2: Using Chocolatey
+   First install Chocolatey (if not installed):
+   Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+   
+   Then install FFmpeg:
+   choco install ffmpeg
+   
+   Restart PowerShell and verify:
+   ffmpeg -version
+
+Method 3: Manual Installation
+   1. Download from: https://www.gyan.dev/ffmpeg/builds/
+      (Download "ffmpeg-release-essentials.zip")
+   2. Extract to: C:\ffmpeg
+   3. Add to PATH:
+      - Press Win + R, type: sysdm.cpl
+      - Go to Advanced > Environment Variables
+      - Under System Variables, find "Path", click Edit
+      - Click New, add: C:\ffmpeg\bin
+      - Click OK on all windows
+   4. Restart PowerShell and verify:
+      ffmpeg -version
+
+--------------------------------------
+macOS:
+--------------------------------------
+
+Using Homebrew (Recommended):
+   brew install ffmpeg
+
+Verify installation:
+   ffmpeg -version
+
+--------------------------------------
+Linux (Ubuntu/Debian):
+--------------------------------------
+
+   sudo apt update
+   sudo apt install ffmpeg
+
+Verify installation:
+   ffmpeg -version
+
+--------------------------------------
+Linux (RHEL/CentOS/Fedora):
+--------------------------------------
+
+   sudo dnf install ffmpeg
+
+Or for older versions:
+   sudo yum install ffmpeg
+
+--------------------------------------
+VERIFICATION:
+--------------------------------------
+
+After installation, open a NEW terminal and run:
+   ffmpeg -version
+
+You should see version information like:
+   ffmpeg version 6.x.x Copyright (c) 2000-2024...
+
+If you see "command not found", restart your terminal
+or computer and try again.
+
+--------------------------------------
+TROUBLESHOOTING:
+--------------------------------------
+
+Problem: "ffmpeg not recognized" after installation
+Solution: 
+   1. Close ALL terminal/PowerShell windows
+   2. Open a NEW terminal
+   3. If still not working, restart your computer
+
+Problem: Permission denied (Windows)
+Solution: Run PowerShell as Administrator
+
+Problem: Chocolatey not found
+Solution: See Method 1 (winget) or Method 3 (manual)

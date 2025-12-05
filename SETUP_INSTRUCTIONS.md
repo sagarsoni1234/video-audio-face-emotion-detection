@@ -1,85 +1,82 @@
-# Complete Setup Instructions
+# 🚀 Complete Setup Instructions
 
-This guide will help you set up the Video-Audio-Face-Emotion-Recognition project on any operating system.
+This guide will help you set up the Video-Audio-Face Emotion Detection project on any computer.
 
-## Quick Start
+---
 
-### For macOS and Linux:
-```bash
-./setup.sh
-```
+## ⚡ Quick Start (Recommended)
 
-### For Windows:
+### Windows:
 ```batch
 setup.bat
 ```
 
-### Or use Python directly (all platforms):
+### macOS/Linux:
 ```bash
-python3 setup_project.py
+chmod +x setup.sh
+./setup.sh
 ```
 
-## What the Setup Script Does
-
-The setup script automatically:
-
-1. ✅ **Checks Python version** (requires 3.9+)
-2. ✅ **Detects your operating system**
-3. ✅ **Checks for system dependencies** (FFmpeg, Git LFS)
-4. ✅ **Creates virtual environment** (`venv/`)
-5. ✅ **Installs PyTorch** (CPU version by default)
-6. ✅ **Installs all Python dependencies** from `requirements.txt`
-7. ✅ **Downloads spaCy language model** (`en_core_web_lg`)
-8. ✅ **Clones pytorch_utils submodule** (v1.0.3)
-9. ✅ **Creates project folders** (input_files, output_files, etc.)
-10. ✅ **Checks for model files** and downloads if needed
-
-## Manual Setup (Alternative)
-
-If you prefer to set up manually or the script fails:
-
-### 1. Prerequisites
-
-#### System Dependencies:
-
-**FFmpeg** (required for video processing):
-- **macOS**: `brew install ffmpeg`
-- **Linux (Ubuntu/Debian)**: `sudo apt-get install ffmpeg`
-- **Linux (RHEL/CentOS)**: `sudo yum install ffmpeg`
-- **Windows**: Download from [ffmpeg.org](https://ffmpeg.org/download.html) or use `choco install ffmpeg`
-
-**Git LFS** (required for downloading combined model):
-- **macOS**: `brew install git-lfs`
-- **Linux**: `sudo apt-get install git-lfs`
-- **Windows**: Download from [git-lfs.github.com](https://git-lfs.github.com/)
-
-#### Python:
-- Python 3.9 or higher (3.10 recommended)
-- pip (usually comes with Python)
-
-### 2. Clone Repository
-
+### Or use Python directly:
 ```bash
-git clone https://github.com/rishiswethan/Video-Audio-Face-Emotion-Recognition.git
-cd Video-Audio-Face-Emotion-Recognition
+python setup_project.py
 ```
 
-### 3. Clone Submodule
+---
 
+## 📋 Prerequisites
+
+Before running the setup, make sure you have:
+
+### 1. Python 3.10 (Required)
+- Download from: https://www.python.org/downloads/
+- ✅ Check "Add Python to PATH" during installation
+
+Verify installation:
 ```bash
-git clone https://github.com/rishiswethan/pytorch_utils.git source/pytorch_utils
-cd source/pytorch_utils
-git checkout v1.0.3
-cd ../..
+python --version
+# Should show: Python 3.10.x
 ```
 
-### 4. Create Virtual Environment
+### 2. Git (Required)
+- Download from: https://git-scm.com/downloads
 
-**macOS/Linux:**
+Verify installation:
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+git --version
 ```
+
+### 3. FFmpeg (Required for video processing)
+
+**Windows:**
+```powershell
+winget install FFmpeg.FFmpeg
+```
+
+**macOS:**
+```bash
+brew install ffmpeg
+```
+
+**Linux:**
+```bash
+sudo apt install ffmpeg
+```
+
+See `ffmpeg-install guide.txt` for detailed instructions.
+
+---
+
+## 📥 Step-by-Step Manual Setup
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/sagarsoni1234/video-audio-face-emotion-detection.git
+cd video-audio-face-emotion-detection
+```
+
+### Step 2: Create Virtual Environment
 
 **Windows:**
 ```batch
@@ -87,153 +84,194 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### 5. Install PyTorch
+**macOS/Linux:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-**CPU Version (recommended for testing):**
+### Step 3: Upgrade pip
+
+```bash
+pip install --upgrade pip
+```
+
+### Step 4: Install PyTorch
+
+**CPU Version (Default):**
 ```bash
 pip install torch torchvision torchaudio
 ```
 
-**GPU Version (CUDA 11.7):**
+**GPU Version (NVIDIA CUDA 11.8):**
 ```bash
-pip uninstall torch
-pip cache purge
-pip install torch==1.13.1+cu117 torchvision>=0.13.1+cu117 torchaudio>=0.13.1+cu117 --extra-index-url https://download.pytorch.org/whl/cu117 --no-cache-dir
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
 
-### 6. Install Dependencies
+### Step 5: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 7. Download spaCy Model
+### Step 6: Download spaCy Language Model
 
 ```bash
 python -m spacy download en_core_web_lg
 ```
 
-### 8. Create Project Folders
+If the above fails, try:
+```bash
+pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.5.0/en_core_web_lg-3.5.0-py3-none-any.whl
+```
+
+### Step 7: Setup Project Folders
 
 ```bash
 python setup.py
 ```
 
-### 9. Download Model Files (if using Git LFS)
+---
 
+## ✅ Verify Installation
+
+### Test 1: Check imports
 ```bash
-git lfs install
-git lfs pull models/audio_face_combined/audio_face_combined_model.pth
+python -c "import torch; import cv2; import mediapipe; print('All imports successful!')"
 ```
 
-## Verification
-
-After setup, verify everything works:
-
-### Test Audio Model:
+### Test 2: Run the Web UI
 ```bash
-python run.py
-# Select: 1 (Audio) -> 4 (Predict)
-# Enter filename: audio_happy.mp4
-```
-
-### Test Face Model:
-```bash
-python run.py
-# Select: 2 (Face) -> 4 (Predict)
-# Enter filename: angry.png
-```
-
-### Test Combined Model:
-```bash
-python run.py
-# Select: 3 (Combined) -> 4 (Predict)
-# Enter filename: angry_alex.mp4
-```
-
-### Run Web UI:
-```bash
-# macOS/Linux:
-./run_ui.sh
-
-# Windows:
-run_ui.bat
-
-# Or directly:
+# Make sure venv is activated, then:
 python -m streamlit run app.py
 ```
 
-## Troubleshooting
+Open browser to: http://localhost:8501
 
-### Issue: "Command not found: ffmpeg"
-**Solution**: Install FFmpeg using your system package manager (see Prerequisites above)
-
-### Issue: "Git LFS not found"
-**Solution**: Install Git LFS (see Prerequisites above), then run:
+### Test 3: Run CLI
 ```bash
-git lfs install
-git lfs pull
+python run.py
 ```
 
-### Issue: "ModuleNotFoundError: No module named 'torch'"
-**Solution**: Make sure virtual environment is activated, then:
-```bash
-pip install torch torchvision torchaudio
+---
+
+## 🎮 How to Run
+
+### Option 1: Web UI (Recommended)
+
+**Windows:**
+```batch
+venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-### Issue: "Model file is too small" or "invalid load key"
-**Solution**: The model file is a Git LFS pointer. Download the actual file:
+**macOS/Linux:**
 ```bash
-git lfs install
-git lfs pull models/audio_face_combined/audio_face_combined_model.pth
+./venv/bin/python -m streamlit run app.py
 ```
 
-### Issue: "spaCy model not found"
-**Solution**: Download the model:
+Or use the run scripts:
+- Windows: `run_ui.bat`
+- macOS/Linux: `./run_ui.sh`
+
+### Option 2: Command Line Interface
+
+```bash
+python run.py
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Problem: NumPy version conflict
+```
+A module that was compiled using NumPy 1.x cannot be run in NumPy 2.x
+```
+**Solution:**
+```bash
+pip install "numpy==1.23.4" "opencv-python==4.8.1.78" --force-reinstall
+```
+
+### Problem: spaCy model not found
+```
+Can't find model 'en_core_web_lg'
+```
+**Solution:**
 ```bash
 python -m spacy download en_core_web_lg
 ```
 
-### Issue: Virtual environment not activating
-**Solution**: 
-- **macOS/Linux**: Make sure you use `source venv/bin/activate`
-- **Windows**: Make sure you use `venv\Scripts\activate`
+### Problem: FFmpeg not found
+```
+FileNotFoundError: ffmpeg
+```
+**Solution:** Install FFmpeg (see Prerequisites section)
 
-## System Requirements
+### Problem: CUDA out of memory
+**Solution:** Use CPU version or reduce batch size in config files
 
-- **RAM**: 8GB+ recommended (4GB minimum)
-- **Storage**: 5GB+ free space
-- **Python**: 3.9+ (3.10 recommended)
-- **OS**: Windows 10+, macOS 10.14+, or Linux (Ubuntu 18.04+)
+### Problem: Module not found
+**Solution:** Make sure virtual environment is activated:
+- Windows: `venv\Scripts\activate`
+- macOS/Linux: `source venv/bin/activate`
 
-## GPU Support (Optional)
+### Problem: Permission denied (Linux/Mac)
+**Solution:**
+```bash
+chmod +x setup.sh run_ui.sh
+```
 
-For GPU acceleration, you need:
-- NVIDIA GPU with CUDA support
-- CUDA 11.7 or compatible version
-- Install PyTorch with CUDA (see step 5 above)
+---
 
-## Next Steps
+## 💻 System Requirements
 
-After successful setup:
+| Component | Minimum | Recommended |
+|-----------|---------|-------------|
+| RAM | 4 GB | 8 GB+ |
+| Storage | 3 GB | 5 GB+ |
+| Python | 3.9 | 3.10 |
+| GPU | Not required | NVIDIA with CUDA |
 
-1. **Test the models** using `run.py`
-2. **Try the web UI** using `run_ui.sh` or `run_ui.bat`
-3. **Upload test files** to `input_files/` directory
-4. **Check results** in `output_files/` directory
+---
 
-## Support
+## 📁 Project Structure After Setup
+
+```
+video-audio-face-emotion-detection/
+├── venv/                    # Virtual environment (created)
+├── models/                  # Pre-trained models
+│   ├── audio/              # Audio emotion model
+│   ├── face/               # Face emotion model
+│   └── audio_face_combined/ # Combined model
+├── source/                  # Source code
+├── input_files/            # Put your test files here
+├── output_files/           # Results saved here
+├── app.py                  # Streamlit Web UI
+├── run.py                  # CLI interface
+├── requirements.txt        # Python dependencies
+└── setup.bat / setup.sh    # Setup scripts
+```
+
+---
+
+## 🎯 Quick Test
+
+After setup, test with sample files:
+
+1. **Face Emotion:** Upload `input_files/angry.png`
+2. **Audio Emotion:** Upload `input_files/audio_happy.mp4`
+3. **Video Emotion:** Upload `input_files/angry_alex.mp4`
+
+---
+
+## 📞 Support
 
 If you encounter issues:
-1. Check the troubleshooting section above
-2. Review error messages carefully
-3. Ensure all prerequisites are installed
-4. Try running the setup script again
+1. Check the Troubleshooting section above
+2. Make sure all prerequisites are installed
+3. Try running setup again
+4. Check console for error messages
 
-## Notes
+---
 
-- The setup script is idempotent - you can run it multiple times safely
-- Virtual environment will be reused if it already exists
-- Model files are large (~130MB for combined model) - download may take time
-- First run may be slower as models load into memory
-
+**Happy Emotion Detecting! 🎭**

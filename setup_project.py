@@ -272,18 +272,35 @@ def clone_pytorch_utils():
         str(pytorch_utils_path)
     ], check=False)
     
-    # If clone fails, try without git (pytorch_utils might already be included)
-    if not success and pytorch_utils_path.exists():
-        print_warning("Git clone failed but pytorch_utils folder exists")
-        success = True
-    
     if success:
+        # Clone succeeded, now checkout the correct version
         os.chdir(pytorch_utils_path)
-        run_command(['git', 'checkout', 'v1.0.3'], check=False)
+        checkout_success, _ = run_command(['git', 'checkout', 'v1.0.3'], check=False)
         os.chdir('..')
         os.chdir('..')
-        print_success("pytorch_utils cloned and checked out v1.0.3")
+        if checkout_success:
+            print_success("pytorch_utils cloned and checked out v1.0.3")
+        else:
+            print_warning("pytorch_utils cloned but checkout v1.0.3 failed (using default branch)")
         return True
+    elif pytorch_utils_path.exists():
+        # Clone failed but folder exists - check if it's a valid git repo
+        git_dir = pytorch_utils_path / '.git'
+        if git_dir.exists():
+            print_warning("pytorch_utils folder already exists, attempting checkout...")
+            os.chdir(pytorch_utils_path)
+            checkout_success, _ = run_command(['git', 'checkout', 'v1.0.3'], check=False)
+            os.chdir('..')
+            os.chdir('..')
+            if checkout_success:
+                print_success("pytorch_utils checked out v1.0.3")
+            else:
+                print_warning("Could not checkout v1.0.3, using existing version")
+            return True
+        else:
+            # Folder exists but is not a git repo - use as-is
+            print_warning("pytorch_utils folder exists but is not a git repo (using existing files)")
+            return True
     else:
         print_error("Failed to clone pytorch_utils")
         print_info("You can clone it manually:")

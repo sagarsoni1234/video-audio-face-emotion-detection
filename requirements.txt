@@ -41,9 +41,10 @@ psutil==5.9.4
 more_itertools==9.0.0
 hyperopt==0.2.7
 
-# Video Download (optional)
+# Video Download & Playback
 pytube==12.1.2
 moviepy==1.0.3
+python-vlc==3.0.18121
 
 # Development
 ipython==8.9.0

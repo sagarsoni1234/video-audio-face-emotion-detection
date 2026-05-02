@@ -234,18 +234,24 @@ def install_requirements():
         print_info("You may need to install them manually")
         return False
 
+SPACY_MODEL_WHEEL = (
+    "https://github.com/explosion/spacy-models/releases/download/"
+    "en_core_web_lg-3.5.0/en_core_web_lg-3.5.0-py3-none-any.whl"
+)
+
+
 def install_spacy_model():
-    """Download spaCy language model"""
-    print_step("Downloading spaCy language model...")
-    python_cmd = get_python_command()
-    
-    success, _ = run_command([python_cmd, '-m', 'spacy', 'download', 'en_core_web_lg'], check=False)
+    """Install spaCy English pipeline (wheel avoids broken `spacy download` with setuptools>=81)."""
+    print_step("Installing spaCy language model...")
+    pip_cmd = get_pip_command()
+
+    success, _ = run_command([pip_cmd, 'install', SPACY_MODEL_WHEEL], check=False)
     if success:
-        print_success("spaCy model downloaded")
+        print_success("spaCy model installed")
         return True
     else:
-        print_warning("Could not download spaCy model (you can do this manually later)")
-        print_info("Run: python -m spacy download en_core_web_lg")
+        print_warning("Could not install spaCy model (you can do this manually later)")
+        print_info(f"Run: {pip_cmd} install {SPACY_MODEL_WHEEL}")
         return False
 
 def clone_pytorch_utils():

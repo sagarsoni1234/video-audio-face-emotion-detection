@@ -158,7 +158,9 @@ def extract_mfcc(file_or_samples_and_sr, N_FFT, NUM_MFCC, HOP_LENGTH, print_flag
 
         # extract MFCCs
         print(f"Extracting MFCCs with N_FFT: {N_FFT}, NUM_MFCC: {NUM_MFCC}, HOP_LENGTH: {HOP_LENGTH}...")
-        MFCCs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=NUM_MFCC, n_fft=N_FFT, hop_length=HOP_LENGTH)
+        MFCCs = librosa.feature.mfcc(
+            y=signal, sr=sample_rate, n_mfcc=NUM_MFCC, n_fft=N_FFT, hop_length=HOP_LENGTH
+        )
         MFCCs = MFCCs.T
 
         # Image.fromarray(MFCCs).show()
